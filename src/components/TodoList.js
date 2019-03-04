@@ -7,8 +7,9 @@ const TodoList = (options) => {
 	
 	return (
 		<ul>
-			<li>{TodoListItem()}</li>
-			<li>{TodoListItem()}</li>
+			<li><TodoListItem label="Drink Coffee" /></li>
+			<li><TodoListItem label="Build React App" /></li>
+			<li>{ TodoListItem( {label: "Build React App 2"} ) }</li>
 		</ul>
 	);
 };
