@@ -1,12 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import ReactDom from 'react-dom';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+//Относительные пути - начинаются с ./ - так будет искаться относительно этого файла
+import AppHeader from './components/AppHeader';
+import SearchPanel from './components/SearchPanel';
+import TodoList from './components/TodoList';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+const App = () => {
+	const isLoggedIn = false;
+	const loginBox = <span>Log in please</span>;
+	const welcomeBox = <span>Welcome Back!</span>;
+	
+	return (
+		<div>
+			{isLoggedIn ? welcomeBox : loginBox}
+			<AppHeader />
+			<SearchPanel />
+			<TodoList items={['item1', 'item Banana']} />
+		</div>
+	)
+}
+
+//Этот код на JSX - его переделает в обычный JS Babel
+//const el = (
+//	<App />
+//)
+
+//Этот код в обычном JS, Но через метод реакта. Babel тут не нужен
+//const el = React.createElement('h1', null, 'Hello World!!!');
+
+//ReactDom.render(el, document.getElementById('root'));
+ReactDom.render(App(), document.getElementById('root'));
