@@ -13,9 +13,9 @@ const App = () => {
 	const welcomeBox = <span>Welcome Back!</span>;
 	
 	const todoData = [
-		{label: 'Drink Coffee'},
-		{label: 'Make Awesome App', important: true},
-		{label: 'Have a lunch'},
+		{label: 'Drink Coffee', id: 1},
+		{label: 'Make Awesome App', important: true, id: 2},
+		{label: 'Have a lunch', id: 3},
 	];
 	
 	

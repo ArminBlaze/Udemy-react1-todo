@@ -7,13 +7,15 @@ const TodoList = ({todos}) => {
 		//используем деструктуризацию. Т.к. label={item.label} important={item.important} - Т.е. имена передаваемых свойств (label и important) Совпадают с именами свойств item.label и item.important. То мы передаём в компонент просто объект item
 //		Либо можно вызывать компонент как обычную функцию
 //		{TodoListItem(item)}
+		
 		return (
-			<li>
+			<li key={item.id}>
 				<TodoListItem {...item} />
 			</li>
 		)
 	});
 	
+	console.log(elements);
 	
 	return (
 		<ul>
