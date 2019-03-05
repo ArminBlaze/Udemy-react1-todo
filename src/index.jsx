@@ -12,12 +12,19 @@ const App = () => {
 	const loginBox = <span>Log in please</span>;
 	const welcomeBox = <span>Welcome Back!</span>;
 	
+	const todoData = [
+		{label: 'Drink Coffee'},
+		{label: 'Make Awesome App', important: true},
+		{label: 'Have a lunch'},
+	];
+	
+	
 	return (
 		<div>
 			{isLoggedIn ? welcomeBox : loginBox}
 			<AppHeader />
 			<SearchPanel />
-			<TodoList items={['item1', 'item Banana']} />
+			<TodoList todos={todoData} />
 		</div>
 	)
 }
