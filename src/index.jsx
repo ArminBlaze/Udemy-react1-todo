@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 //Относительные пути - начинаются с ./ - так будет искаться относительно этого файла
-import AppHeader from './components/AppHeader';
-import SearchPanel from './components/SearchPanel';
-import TodoList from './components/TodoList';
-import ItemStatusFilter from './components/ItemStatusFilter';
+import AppHeader from './components/AppHeader/';
+import SearchPanel from './components/SearchPanel/';
+import TodoList from './components/TodoList/';
+import ItemStatusFilter from './components/ItemStatusFilter/';
 
 import './index.css';
 
