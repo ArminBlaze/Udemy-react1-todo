@@ -10,7 +10,7 @@ const TodoList = ({todos}) => {
 		const {id, ...rest} = item;
 		
 		return (
-			<li key={id}>
+			<li key={id} className="list-group-item">
 				<TodoListItem {...rest} />
 			</li>
 		)
@@ -18,8 +18,9 @@ const TodoList = ({todos}) => {
 	
 	console.log(elements);
 	
+	
 	return (
-		<ul>
+		<ul className="list-group todoList">
 			{elements}
 		</ul>
 	);
