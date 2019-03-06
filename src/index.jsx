@@ -5,6 +5,9 @@ import ReactDom from 'react-dom';
 import AppHeader from './components/AppHeader';
 import SearchPanel from './components/SearchPanel';
 import TodoList from './components/TodoList';
+import ItemStatusFilter from './components/ItemStatusFilter';
+
+import './index.css';
 
 
 const App = () => {
@@ -20,10 +23,13 @@ const App = () => {
 	
 	
 	return (
-		<div>
+		<div className="todo-app">
 			{isLoggedIn ? welcomeBox : loginBox}
 			<AppHeader />
-			<SearchPanel />
+			<div className="top-panel d-flex">
+        <SearchPanel />
+        <ItemStatusFilter />
+      </div>
 			<TodoList todos={todoData} />
 		</div>
 	)
