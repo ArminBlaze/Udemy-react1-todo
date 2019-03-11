@@ -16,6 +16,13 @@ class TodoListItem extends React.Component {
 	render() {
 		
 		const {label, important = false} = this.props;
+		const {done} = this.state;
+		
+		let classNames = `TodoListItem`;
+		
+		if(done) {
+			classNames += ` done`;
+		}
 		
 		const style = {
 			color: important ? "tomato" : "",
@@ -25,7 +32,7 @@ class TodoListItem extends React.Component {
 		
 	
 		return (
-			<span className="TodoListItem">
+			<span className={classNames}>
 				<span
 					className="TodoListItem__label"
 					style={style}
