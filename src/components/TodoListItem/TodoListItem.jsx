@@ -4,12 +4,8 @@ import './TodoListItem.css';
 
 class TodoListItem extends React.Component {
 	
-	constructor() {
-		super();
-		
-		this.state = {
-			done: false,
-		}
+	state = {
+		done: false,
 	}
 	
 	onLabelClick = () => {
