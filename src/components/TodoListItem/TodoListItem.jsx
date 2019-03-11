@@ -4,6 +4,14 @@ import './TodoListItem.css';
 
 class TodoListItem extends React.Component {
 	
+	constructor() {
+		super();
+		
+		this.state = {
+			done: false,
+		}
+	}
+	
 	onLabelClick = () => {
 		console.log(this);
 		console.log(`Hi! ${this.props.label}`)
