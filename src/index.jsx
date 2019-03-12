@@ -10,33 +10,58 @@ import ItemStatusFilter from './components/ItemStatusFilter/';
 import './index.css';
 
 
-const App = () => {
-	const isLoggedIn = false;
-	const loginBox = <span>Log in please</span>;
-	const welcomeBox = <span>Welcome Back!</span>;
+class App extends React.Component {
 	
-	const todoData = [
-		{label: 'Drink Coffee', id: 1},
-		{label: 'Make Awesome App', important: true, id: 2},
-		{label: 'Have a lunch', id: 3},
-	];
+	state = {
+		todoData: [
+			{label: 'Drink Coffee', id: 1},
+			{label: 'Make Awesome App', important: true, id: 2},
+			{label: 'Have a lunch', id: 3},
+		],
+	}
+	
+	deleteFromData = (id) => {
+		console.log(id)
+		
+		this.setState( ({todoData}) => {
+			
+			//ищём в массиве нужный элемент, который для callback вернёт true
+			const i = todoData.findIndex((item) => item.id === id);
+			
+			//копируем массив и удаляем из него элемент
+			let newTodoData = todoData.slice();
+			newTodoData.splice(i, 1);
+			
+			return {
+				todoData: newTodoData
+			}
+		})
+	}
+	
+	render() {
+		const isLoggedIn = false;
+		const loginBox = <span>Log in please</span>;
+		const welcomeBox = <span>Welcome Back!</span>;
+
+		return (
+			<div className="todo-app">
+				{isLoggedIn ? welcomeBox : loginBox}
+				<AppHeader toDo={1} done={3} />
+				<div className="top-panel d-flex">
+					<SearchPanel />
+					<ItemStatusFilter />
+				</div>
+				<TodoList 
+				todos={this.state.todoData}
+				//передаём списку ф-цию обратного вызова
+				onDeletedInApp={ this.deleteFromData } 
+				/>
+			</div>
+		)
+	}
 	
 	
-	return (
-		<div className="todo-app">
-			{isLoggedIn ? welcomeBox : loginBox}
-			<AppHeader toDo={1} done={3} />
-			<div className="top-panel d-flex">
-        <SearchPanel />
-        <ItemStatusFilter />
-      </div>
-			<TodoList 
-			todos={todoData}
-			//передаём списку ф-цию обратного вызова
-			onDeletedInApp={ (id) => { console.log(id) } } 
-			/>
-		</div>
-	)
+	
 }
 
 //Этот код на JSX - его переделает в обычный JS Babel
@@ -48,4 +73,4 @@ const App = () => {
 //const el = React.createElement('h1', null, 'Hello World!!!');
 
 //ReactDom.render(el, document.getElementById('root'));
-ReactDom.render(App(), document.getElementById('root'));
+ReactDom.render(<App />, document.getElementById('root'));
