@@ -30,7 +30,11 @@ const App = () => {
         <SearchPanel />
         <ItemStatusFilter />
       </div>
-			<TodoList todos={todoData} />
+			<TodoList 
+			todos={todoData}
+			//передаём списку ф-цию обратного вызова
+			onDeletedInApp={ (id) => { console.log(id) } } 
+			/>
 		</div>
 	)
 }
