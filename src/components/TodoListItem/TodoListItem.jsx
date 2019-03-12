@@ -9,18 +9,20 @@ class TodoListItem extends React.Component {
 		important: false,
 	};
 	
+//Если состояние зависит от предыдущего состояния (инверсия св-ва, увеличения счётчика), то нужно обязательно использовать функцию внутри setState, которая будет получать текущий state. Это нужно т.к. в реакте асинхронность выполнения setState.
 	onLabelClick = () => {
-		console.log(this);
-		console.log(`Hi! ${this.props.label}`)
-		this.setState({
-			done: !this.state.done
-		});
-	};
-	
-	onMakeImportant = () => {
 		this.setState( (state) => {
 			return {
-				important: !state.important
+				done: !state.done
+			}
+		})
+	};
+	
+//Деструктуризация нужного св-ва из state чуть укорачивает код
+	onMakeImportant = () => {
+		this.setState( ({important}) => {
+			return {
+				important: !important
 			}
 		});
 	};
