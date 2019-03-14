@@ -28,7 +28,7 @@ const TodoList = ({todos, onDeletedInApp}) => {
 	
 	
 	return (
-		<ul className="list-group todoList">
+		<ul className="list-group TodoList">
 			{elements}
 		</ul>
 	);

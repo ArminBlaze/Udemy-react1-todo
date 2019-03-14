@@ -5,6 +5,7 @@ import ReactDom from 'react-dom';
 import AppHeader from './components/AppHeader/';
 import SearchPanel from './components/SearchPanel/';
 import TodoList from './components/TodoList/';
+import AddTodo from './components/AddTodo/';
 import ItemStatusFilter from './components/ItemStatusFilter/';
 
 import './index.css';
@@ -21,7 +22,7 @@ class App extends React.Component {
 	}
 	
 	deleteFromData = (id) => {
-		console.log(id)
+		console.log(id);
 		
 		this.setState( ({todoData}) => {
 			
@@ -31,6 +32,26 @@ class App extends React.Component {
 			//копируем массив и удаляем из него элемент
 			let newTodoData = todoData.slice();
 			newTodoData.splice(i, 1);
+			
+			return {
+				todoData: newTodoData
+			}
+		})
+	};
+	
+	
+	onAddTodo = (text) => {
+		this.setState( ({todoData}) => {
+			
+			const lastIndex = todoData.length - 1;
+			
+			let newTodoData = todoData.slice();
+			
+			var newTodo = {
+				id: newTodoData[lastIndex].id+1,
+				label: text
+			}
+			newTodoData.push(newTodo);
 			
 			return {
 				todoData: newTodoData
@@ -56,6 +77,7 @@ class App extends React.Component {
 				//передаём списку ф-цию обратного вызова
 				onDeletedInApp={ this.deleteFromData } 
 				/>
+				<AddTodo onAddTodo={ this.onAddTodo } />
 			</div>
 		)
 	}
