@@ -13,15 +13,20 @@ import './index.css';
 
 class App extends React.Component {
 	
-	state = {
-		todoData: [
-			{label: 'Drink Coffee', id: 1},
-			{label: 'Make Awesome App', important: true, id: 2},
-			{label: 'Have a lunch', id: 3},
-		],
+	constructor() {
+		super();
+		
+		this.state = {
+			todoData: [
+				{label: 'Drink Coffee', id: 1},
+				{label: 'Make Awesome App', important: true, id: 2},
+				{label: 'Have a lunch', id: 3},
+			],
+		}
 	}
 	
-	deleteFromData = (id) => {
+	
+	deleteFromData(id) {
 		console.log(id);
 		
 		this.setState( ({todoData}) => {
@@ -37,10 +42,10 @@ class App extends React.Component {
 				todoData: newTodoData
 			}
 		})
-	};
+	}
 	
 	
-	onAddTodo = (text) => {
+	onAddTodo(text) {
 		this.setState( ({todoData}) => {
 			
 			const lastIndex = todoData.length - 1;
@@ -75,9 +80,9 @@ class App extends React.Component {
 				<TodoList 
 				todos={this.state.todoData}
 				//передаём списку ф-цию обратного вызова
-				onDeletedInApp={ this.deleteFromData } 
+				onDeletedInApp={ this.deleteFromData.bind(this) } 
 				/>
-				<AddTodo onAddTodo={ this.onAddTodo } />
+				<AddTodo onAddTodo={ this.onAddTodo.bind(this) } />
 			</div>
 		)
 	}
