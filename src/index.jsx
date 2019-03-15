@@ -69,7 +69,7 @@ class App extends React.Component {
 	}
 	
 	
-	onTodoMark(id) {
+	onTodoDone(id) {
 		console.log('Отмечен пункт ' + id);
 		this.setState( ({todoData}) => {
 			
@@ -120,7 +120,7 @@ class App extends React.Component {
 					todos={this.state.todoData}
 					//передаём списку ф-цию обратного вызова
 					onDeletedInApp={ this.deleteFromData.bind(this) } 
-					onTodoMark={ this.onTodoMark.bind(this) }
+					onTodoDone={ this.onTodoDone.bind(this) }
 					onTodoImportant={ this.onTodoImportant.bind(this) }
 				/>
 				<AddTodo onTodoAdd={ this.onTodoAdd.bind(this) } />
