@@ -4,33 +4,10 @@ import './TodoListItem.css';
 
 class TodoListItem extends React.Component {
 	
-	state = {
-		done: false,
-		important: false,
-	};
-	
-//Если состояние зависит от предыдущего состояния (инверсия св-ва, увеличения счётчика), то нужно обязательно использовать функцию внутри setState, которая будет получать текущий state. Это нужно т.к. в реакте асинхронность выполнения setState.
-	onLabelClick = () => {
-		this.setState( (state) => {
-			return {
-				done: !state.done
-			}
-		})
-	};
-	
-//Деструктуризация нужного св-ва из state чуть укорачивает код
-	onMakeImportant = () => {
-		this.setState( ({important}) => {
-			return {
-				important: !important
-			}
-		});
-	};
-	
 	render() {
 		
-		const {label} = this.props;
-		const {done, important} = this.state;
+		const {label, done, important = false} = this.props;
+//		const {done, important} = this.state;
 		
 		let classNames = `TodoListItem`;
 		
@@ -46,14 +23,14 @@ class TodoListItem extends React.Component {
 			<span className={classNames}>
 				<span
 					className="TodoListItem__label"
-					onClick={ this.onLabelClick }
+					onClick={ this.props.onTodoMark }
 					>
 					{label}
 				</span>
 
 				<button type="button"
 								className="btn btn-outline-success btn-sm float-right"
-								onClick={ this.onMakeImportant }
+								onClick={ this.props.onTodoImportant }
 								>
 					<i className="fa fa-exclamation" />
 				</button>

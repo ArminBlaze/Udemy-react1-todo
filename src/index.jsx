@@ -30,7 +30,6 @@ class App extends React.Component {
 		console.log(id);
 		
 		this.setState( ({todoData}) => {
-			
 			//ищём в массиве нужный элемент, который для callback вернёт true
 			const i = todoData.findIndex((item) => item.id === id);
 			
@@ -45,7 +44,7 @@ class App extends React.Component {
 	}
 	
 	
-	onAddTodo(text) {
+	onTodoAdd(text) {
 		this.setState( ({todoData}) => {
 			
 			const lastIndex = todoData.length - 1;
@@ -64,6 +63,41 @@ class App extends React.Component {
 		})
 	}
 	
+	
+	onTodoMark(id) {
+		console.log('Отмечен пункт ' + id);
+		this.setState( ({todoData}) => {
+			
+			//ищём в массиве нужный элемент, который для callback вернёт true
+			const i = todoData.findIndex((item) => item.id === id);
+			
+			let newTodoData = todoData.slice();
+			newTodoData[i].done = !newTodoData[i].done;
+			
+			return {
+				todoData: newTodoData
+			}
+		})
+	}
+	
+	onTodoImportant(id) {
+		console.log('Выделен пункт ' + id)
+		
+		this.setState( ({todoData}) => {
+			
+			//ищём в массиве нужный элемент, который для callback вернёт true
+			const i = todoData.findIndex((item) => item.id === id);
+			
+			let newTodoData = todoData.slice();
+			newTodoData[i].important = !newTodoData[i].important;
+			
+			return {
+				todoData: newTodoData
+			}
+		})
+	}
+	
+	
 	render() {
 		const isLoggedIn = false;
 		const loginBox = <span>Log in please</span>;
@@ -78,11 +112,13 @@ class App extends React.Component {
 					<ItemStatusFilter />
 				</div>
 				<TodoList 
-				todos={this.state.todoData}
-				//передаём списку ф-цию обратного вызова
-				onDeletedInApp={ this.deleteFromData.bind(this) } 
+					todos={this.state.todoData}
+					//передаём списку ф-цию обратного вызова
+					onDeletedInApp={ this.deleteFromData.bind(this) } 
+					onTodoMark={ this.onTodoMark.bind(this) }
+					onTodoImportant={ this.onTodoImportant.bind(this) }
 				/>
-				<AddTodo onAddTodo={ this.onAddTodo.bind(this) } />
+				<AddTodo onTodoAdd={ this.onTodoAdd.bind(this) } />
 			</div>
 		)
 	}

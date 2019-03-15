@@ -8,7 +8,7 @@ class AddTodo extends React.Component {
 		<div className="AddTodo d-flex">
 			<button type="button"
 			className="btn btn-info"
-			onClick={ () => this.props.onAddTodo('Hello Peka!') }
+			onClick={ () => this.props.onTodoAdd('Hello Peka!') }
 			>Добавить элемент</button>
 		</div>
 		);
