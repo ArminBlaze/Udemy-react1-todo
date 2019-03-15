@@ -70,31 +70,23 @@ class App extends React.Component {
 	
 	
 	onTodoDone(id) {
-		console.log('Отмечен пункт ' + id);
-		this.setState( ({todoData}) => {
-			
-			//ищём в массиве нужный элемент, который для callback вернёт true
-			const i = todoData.findIndex((item) => item.id === id);
-			
-			let newTodoData = todoData.slice();
-			newTodoData[i].done = !newTodoData[i].done;
-			
-			return {
-				todoData: newTodoData
-			}
-		})
+		this.toggleProperty("done", id);
 	}
 	
 	onTodoImportant(id) {
-		console.log('Выделен пункт ' + id)
-		
-		this.setState( ({todoData}) => {
+		this.toggleProperty("important", id);
+	}
+	
+	toggleProperty(prop, id) {
+			this.setState( ({todoData}) => {
 			
 			//ищём в массиве нужный элемент, который для callback вернёт true
 			const i = todoData.findIndex((item) => item.id === id);
 			
 			let newTodoData = todoData.slice();
-			newTodoData[i].important = !newTodoData[i].important;
+			let newTodo = Object.assign({}, newTodoData[i]);
+			newTodo[prop] = !newTodo[prop];
+			newTodoData[i] = newTodo;
 			
 			return {
 				todoData: newTodoData
@@ -107,17 +99,23 @@ class App extends React.Component {
 		const isLoggedIn = false;
 		const loginBox = <span>Log in please</span>;
 		const welcomeBox = <span>Welcome Back!</span>;
-
+		
+		const {todoData} = this.state;
+		const doneCount = todoData.filter((el) => el.done).length;
+		const leftCount = todoData.length - doneCount;
+		
+		
+		
 		return (
 			<div className="todo-app">
 				{isLoggedIn ? welcomeBox : loginBox}
-				<AppHeader toDo={1} done={3} />
+				<AppHeader toDo={leftCount} done={doneCount} />
 				<div className="top-panel d-flex">
 					<SearchPanel />
 					<ItemStatusFilter />
 				</div>
 				<TodoList 
-					todos={this.state.todoData}
+					todos={todoData}
 					//передаём списку ф-цию обратного вызова
 					onDeletedInApp={ this.deleteFromData.bind(this) } 
 					onTodoDone={ this.onTodoDone.bind(this) }
