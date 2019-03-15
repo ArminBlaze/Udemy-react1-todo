@@ -16,12 +16,24 @@ class App extends React.Component {
 	constructor() {
 		super();
 		
+		this.maxId = 100;
+		
 		this.state = {
 			todoData: [
-				{label: 'Drink Coffee', id: 1},
-				{label: 'Make Awesome App', important: true, id: 2},
-				{label: 'Have a lunch', id: 3},
+				this.createTodoItem('Drink Coffee'),
+				this.createTodoItem('Make Awesome App'),
+				this.createTodoItem('Have a lunch'),
 			],
+		}
+	}
+	
+	
+	createTodoItem(label) {
+		return {
+			label: label,
+			important: false,
+			done: false,
+			id: this.maxId++
 		}
 	}
 	
@@ -46,15 +58,8 @@ class App extends React.Component {
 	
 	onTodoAdd(text) {
 		this.setState( ({todoData}) => {
-			
-			const lastIndex = todoData.length - 1;
-			
 			let newTodoData = todoData.slice();
-			
-			var newTodo = {
-				id: newTodoData[lastIndex].id+1,
-				label: text
-			}
+			var newTodo = this.createTodoItem(text);
 			newTodoData.push(newTodo);
 			
 			return {
