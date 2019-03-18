@@ -25,7 +25,13 @@ class AddTodo extends React.Component {
 	onFormSubmit(e) {
 		e.preventDefault();
 		this.props.onTodoAdd(this.state.label);
-		e.target.reset();
+		
+		//Очищаем форму не через reset(), т.к. reset не сбросит state
+		//При изменении state - запустится render и у input будет очищено значение
+		//Интересный факт. Событие onchange input'а не вызывается ни при form.reset(), ни при изменении input.value
+		this.setState({
+			label: ''
+		})
 	}
 	
 	render() {
@@ -35,6 +41,7 @@ class AddTodo extends React.Component {
 				className="form-control"
 				onChange={ this.onLabelChange.bind(this) }
 				placeholder="Что ещё нужно сделать?"
+				value={ this.state.label }
 			/>
 			<button type="submit"
 			className="btn btn-info"
