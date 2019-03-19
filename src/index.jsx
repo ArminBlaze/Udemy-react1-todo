@@ -24,6 +24,10 @@ class App extends React.Component {
 				this.createTodoItem('Make Awesome App'),
 				this.createTodoItem('Have a lunch'),
 			],
+			
+			activeFilters: 'all',
+			searchStr: '',
+			filteredTodoData: null,
 		}
 	}
 	
@@ -94,6 +98,43 @@ class App extends React.Component {
 		})
 	}
 	
+	setProperty(prop, value) {
+		console.log(this.state[prop]);
+		
+		this.setState({
+			[prop]: value
+		})
+	}
+	
+	onSearch(text) {
+		this.setProperty('searchStr', text)
+	}
+	
+	
+	filterForSearch(arr) {
+		const {searchStr} = this.state;
+		
+		if(searchStr.length === 0) return arr;
+		
+		const newArr = arr.filter( item => {
+			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
+		});
+		
+		return newArr;
+	}
+	
+	filterForFilters(arr) {
+		const {activeFilters} = this.state;
+		
+		if(activeFilters === 'all') return arr; 
+		
+		const newArr = arr.filter( item => {
+			return true
+		});
+		
+		return newArr;
+	}
+	
 	
 	render() {
 		const isLoggedIn = false;
@@ -101,9 +142,12 @@ class App extends React.Component {
 		const welcomeBox = <span>Welcome Back!</span>;
 		
 		const {todoData} = this.state;
+		const filteredByFilters = this.filterForFilters(todoData);
+		const filteredBySearch = this.filterForSearch(filteredByFilters);
+		
+		//оптимизация - считать doneCount в filterTodos. Т.к. там уже делается проход по массиву todoData
 		const doneCount = todoData.filter((el) => el.done).length;
 		const leftCount = todoData.length - doneCount;
-		
 		
 		
 		return (
@@ -111,11 +155,11 @@ class App extends React.Component {
 				{isLoggedIn ? welcomeBox : loginBox}
 				<AppHeader toDo={leftCount} done={doneCount} />
 				<div className="top-panel d-flex">
-					<SearchPanel />
+					<SearchPanel onSearch={ this.onSearch.bind(this) } />
 					<ItemStatusFilter />
 				</div>
 				<TodoList 
-					todos={todoData}
+					todos={filteredBySearch}
 					//передаём списку ф-цию обратного вызова
 					onDeletedInApp={ this.deleteFromData.bind(this) } 
 					onTodoDone={ this.onTodoDone.bind(this) }
@@ -125,9 +169,6 @@ class App extends React.Component {
 			</div>
 		)
 	}
-	
-	
-	
 }
 
 //Этот код на JSX - его переделает в обычный JS Babel
