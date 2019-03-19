@@ -24,6 +24,10 @@ class App extends React.Component {
 				this.createTodoItem('Make Awesome App'),
 				this.createTodoItem('Have a lunch'),
 			],
+			
+			activeFilters: 'all',
+			searchStr: '',
+			filteredTodoData: null,
 		}
 	}
 	
@@ -94,6 +98,63 @@ class App extends React.Component {
 		})
 	}
 	
+	setProperty(prop, value) {
+		console.log(this.state[prop]);
+		
+		this.setState({
+			[prop]: value
+		})
+	}
+	
+	onSearch(text) {
+		console.log(text);
+		
+	
+		
+		console.log(this.state.searchStr);
+		
+		this.filterTodos({
+			searchStr: text
+		});
+	}
+	
+	filterTodos(options) {
+		debugger;
+		let searchStr = (options.hasOwnProperty('searchStr')) ? options.searchStr : this.state.searchStr;
+		let activeFilters = (options.hasOwnProperty('activeFilters')) ? options.activeFilters : this.state.activeFilters;
+		
+		//отфильтровать 
+		const {todoData} = this.state;
+		
+		//добавить в новый массив только элементы которые соответствуют фильтрам и поисковой строке
+		const newArr = todoData.filter( item => {
+			return isFilterMatch(item) && isSearchMatch(item)
+		})
+		
+		console.log(newArr);
+		
+		//установить searchStr или activeFilters в setState
+		//установить newArr в filteredTodoData
+//		debugger;
+		this.setProperty('filteredTodoData', newArr);
+		
+		(options.searchStr) ? 
+			this.setProperty('searchStr', searchStr) : 
+			this.setProperty('activeFilters', activeFilters);
+		
+		
+		//тут ищем совпадение строки поиска с todo именем
+		function isSearchMatch(item) {
+			//проверять что item.label начинается с searchStr
+			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
+		}
+		
+		//тут проверяем совпадение с фильтрами
+		function isFilterMatch(item) {
+			return true;
+		}
+	}
+	
 	
 	render() {
 		const isLoggedIn = false;
@@ -101,6 +162,8 @@ class App extends React.Component {
 		const welcomeBox = <span>Welcome Back!</span>;
 		
 		const {todoData} = this.state;
+		const filteredTodoData = this.state.filteredTodoData || todoData;
+		
 		const doneCount = todoData.filter((el) => el.done).length;
 		const leftCount = todoData.length - doneCount;
 		
@@ -111,11 +174,11 @@ class App extends React.Component {
 				{isLoggedIn ? welcomeBox : loginBox}
 				<AppHeader toDo={leftCount} done={doneCount} />
 				<div className="top-panel d-flex">
-					<SearchPanel />
+					<SearchPanel onSearch={ this.onSearch.bind(this) } />
 					<ItemStatusFilter />
 				</div>
 				<TodoList 
-					todos={todoData}
+					todos={filteredTodoData}
 					//передаём списку ф-цию обратного вызова
 					onDeletedInApp={ this.deleteFromData.bind(this) } 
 					onTodoDone={ this.onTodoDone.bind(this) }
