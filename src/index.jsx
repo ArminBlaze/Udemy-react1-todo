@@ -109,19 +109,18 @@ class App extends React.Component {
 	onSearch(text) {
 		console.log(text);
 		
-	
+		this.setProperty('searchStr', text)
 		
 		console.log(this.state.searchStr);
 		
-		this.filterTodos({
-			searchStr: text
-		});
+//		this.filterTodos({
+//			searchStr: text
+//		});
 	}
 	
-	filterTodos(options) {
-		debugger;
-		let searchStr = (options.hasOwnProperty('searchStr')) ? options.searchStr : this.state.searchStr;
-		let activeFilters = (options.hasOwnProperty('activeFilters')) ? options.activeFilters : this.state.activeFilters;
+	filterTodos() {
+		let searchStr = this.state.searchStr;
+		let activeFilters = this.state.activeFilters;
 		
 		//отфильтровать 
 		const {todoData} = this.state;
@@ -136,12 +135,14 @@ class App extends React.Component {
 		//установить searchStr или activeFilters в setState
 		//установить newArr в filteredTodoData
 //		debugger;
-		this.setProperty('filteredTodoData', newArr);
+//		this.setProperty('filteredTodoData', newArr);
+//		
+//		(options.searchStr) ? 
+//			this.setProperty('searchStr', searchStr) : 
+//			this.setProperty('activeFilters', activeFilters);
 		
-		(options.searchStr) ? 
-			this.setProperty('searchStr', searchStr) : 
-			this.setProperty('activeFilters', activeFilters);
 		
+		return newArr;
 		
 		//тут ищем совпадение строки поиска с todo именем
 		function isSearchMatch(item) {
@@ -162,7 +163,7 @@ class App extends React.Component {
 		const welcomeBox = <span>Welcome Back!</span>;
 		
 		const {todoData} = this.state;
-		const filteredTodoData = this.state.filteredTodoData || todoData;
+		const filteredTodoData = this.filterTodos();
 		
 		const doneCount = todoData.filter((el) => el.done).length;
 		const leftCount = todoData.length - doneCount;
