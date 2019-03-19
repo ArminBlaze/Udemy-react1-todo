@@ -107,42 +107,9 @@ class App extends React.Component {
 	}
 	
 	onSearch(text) {
-		console.log(text);
-		
 		this.setProperty('searchStr', text)
-		
-		console.log(this.state.searchStr);
-		
-//		this.filterTodos({
-//			searchStr: text
-//		});
 	}
 	
-	
-	//оптимизация - если searchStr пустая (.length === 0), то нужно возвращать todoData
-//	filterTodos() {
-//		let searchStr = this.state.searchStr;
-//		let activeFilters = this.state.activeFilters;
-//		
-//		//отфильтровать 
-//		const {todoData} = this.state;
-//		
-//		//добавить в новый массив только элементы которые соответствуют фильтрам и поисковой строке
-//		const newArr = todoData.filter( item => {
-//			return isFilterMatch(item) && isSearchMatch(item)
-//		});
-//		
-//		//тут ищем совпадение строки поиска с todo именем
-//		function isSearchMatch(item) {
-//			//проверять что item.label начинается с searchStr
-//			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
-//		}
-//		
-//		//тут проверяем совпадение с фильтрами
-//		function isFilterMatch(item) {
-//			return true;
-//		}
-//	}
 	
 	filterForSearch(arr) {
 		const {searchStr} = this.state;
@@ -183,7 +150,6 @@ class App extends React.Component {
 		const leftCount = todoData.length - doneCount;
 		
 		
-		
 		return (
 			<div className="todo-app">
 				{isLoggedIn ? welcomeBox : loginBox}
@@ -203,9 +169,6 @@ class App extends React.Component {
 			</div>
 		)
 	}
-	
-	
-	
 }
 
 //Этот код на JSX - его переделает в обычный JS Babel
