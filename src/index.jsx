@@ -25,7 +25,7 @@ class App extends React.Component {
 				this.createTodoItem('Have a lunch'),
 			],
 			
-			activeFilters: 'all',
+			activeFilter: 'all',
 			searchStr: '',
 		}
 	}
@@ -42,8 +42,6 @@ class App extends React.Component {
 	
 	
 	deleteFromData(id) {
-		console.log(id);
-		
 		this.setState( ({todoData}) => {
 			//ищём в массиве нужный элемент, который для callback вернёт true
 			const i = todoData.findIndex((item) => item.id === id);
@@ -107,8 +105,8 @@ class App extends React.Component {
 		this.setProperty('searchStr', text)
 	}
 	
-	onFilter(text) {
-		this.setProperty('activeFilters', text)
+	onFilterChange(text) {
+		this.setProperty('activeFilter', text)
 	}
 	
 	
@@ -125,13 +123,13 @@ class App extends React.Component {
 	}
 	
 	filterForFilters(arr) {
-		const {activeFilters} = this.state;
+		const {activeFilter} = this.state;
 		
-		if(activeFilters === 'all') return arr; 
+		if(activeFilter === 'all') return arr; 
 		
 		const newArr = arr.filter( item => {
-			if(activeFilters === 'active') return !item.done;
-			if(activeFilters === 'done') return item.done;
+			if(activeFilter === 'active') return !item.done;
+			if(activeFilter === 'done') return item.done;
 			
 			return true;
 		});
@@ -145,7 +143,7 @@ class App extends React.Component {
 		const loginBox = <span>Log in please</span>;
 		const welcomeBox = <span>Welcome Back!</span>;
 		
-		const {todoData} = this.state;
+		const {todoData, activeFilter} = this.state;
 		const filteredByFilters = this.filterForFilters(todoData);
 		const filteredBySearch = this.filterForSearch(filteredByFilters);
 		
@@ -160,7 +158,7 @@ class App extends React.Component {
 				<AppHeader toDo={leftCount} done={doneCount} />
 				<div className="top-panel d-flex">
 					<SearchPanel onSearch={ this.onSearch.bind(this) } />
-					<ItemStatusFilter onFilter={ this.onFilter.bind(this) }/>
+					<ItemStatusFilter activeFilter={activeFilter} onFilterChange={ this.onFilterChange.bind(this) }/>
 				</div>
 				<TodoList 
 					todos={filteredBySearch}

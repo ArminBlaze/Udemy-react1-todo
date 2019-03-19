@@ -8,7 +8,6 @@ class ItemStatusFilter extends React.Component {
 		super();
 		
 		this.state = {
-			activeFilters: 'all',
 			buttons: [
 				{name: 'all', label: 'All'},
 				{name: 'active', label: 'Active'},
@@ -18,35 +17,31 @@ class ItemStatusFilter extends React.Component {
 	}
 	
 	onButtonsClick(filter) {
-		console.log(filter);
-//		let filter = e.target.textContent.toLowerCase();
-		
-		this.setState({
-			activeFilters: filter
-		})
-		
-		//калбек
 		this.props.onFilter(filter);
 	}
 	
 	setClassForButton(str) {
-		let className = 'btn';
-		if(str === this.state.activeFilters) className += ' btn-info';
-		else className += ' btn-outline-secondary';
+		let activeFilter = this.state.activeFilters;
+		let className = 'btn ';
+		className += (str === activeFilter) ? 'btn-info' : 'btn-outline-secondary';
 		return className;
 	}
 	
+	
 	render() {
+		const {activeFilter, onFilterChange} = this.props;
 		
-		let buttons = this.state.buttons.map(item => {
+		let buttons = this.state.buttons.map( ({name, label}) => {
+			let className = (name === activeFilter) ? 'btn-info' : 'btn-outline-secondary';
+			
 			return (
 				<button type="button"
-              className={this.setClassForButton(item.name)}
-              key={item.name}
-              onClick={ () => { this.onButtonsClick(item.name) } }
-              >{item.label}</button>
+              className={`btn ${className}`}
+              key={name}
+              onClick={ () => onFilterChange(name) }
+              >{label}</button>
 			)
-		})
+		});
 		
 		
 		return (

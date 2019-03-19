@@ -16,7 +16,6 @@ const TodoList = ({todos, onDeletedInApp, onTodoDone, onTodoImportant}) => {
 					//ещё одно свойство props - это функция callback
 					//Тут мы обернули полученную функцию ещё одной. Мы можем контролировать "всплытие" события. И в этом компоненте что-то сделать, прежде чем вызвать "родительский" callback
 					onDeletedInList={() => { 
-							console.log('Deleted!');
 							onDeletedInApp(id);
 						}} 
 					onTodoDone={ () => {onTodoDone(id)}}

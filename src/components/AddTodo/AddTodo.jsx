@@ -13,13 +13,9 @@ class AddTodo extends React.Component {
 	
 	
 	onLabelChange(e) {
-		console.log(e.target.value);
-		
-		this.setState(
-			{
+		this.setState({
 				label: e.target.value
-			}
-		)
+		})
 	}
 	
 	onFormSubmit(e) {
