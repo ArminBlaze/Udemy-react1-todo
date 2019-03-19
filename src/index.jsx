@@ -118,42 +118,54 @@ class App extends React.Component {
 //		});
 	}
 	
-	filterTodos() {
-		let searchStr = this.state.searchStr;
-		let activeFilters = this.state.activeFilters;
-		
-		//отфильтровать 
-		const {todoData} = this.state;
-		
-		//добавить в новый массив только элементы которые соответствуют фильтрам и поисковой строке
-		const newArr = todoData.filter( item => {
-			return isFilterMatch(item) && isSearchMatch(item)
-		})
-		
-		console.log(newArr);
-		
-		//установить searchStr или activeFilters в setState
-		//установить newArr в filteredTodoData
-//		debugger;
-//		this.setProperty('filteredTodoData', newArr);
+	
+	//оптимизация - если searchStr пустая (.length === 0), то нужно возвращать todoData
+//	filterTodos() {
+//		let searchStr = this.state.searchStr;
+//		let activeFilters = this.state.activeFilters;
 //		
-//		(options.searchStr) ? 
-//			this.setProperty('searchStr', searchStr) : 
-//			this.setProperty('activeFilters', activeFilters);
+//		//отфильтровать 
+//		const {todoData} = this.state;
+//		
+//		//добавить в новый массив только элементы которые соответствуют фильтрам и поисковой строке
+//		const newArr = todoData.filter( item => {
+//			return isFilterMatch(item) && isSearchMatch(item)
+//		});
+//		
+//		//тут ищем совпадение строки поиска с todo именем
+//		function isSearchMatch(item) {
+//			//проверять что item.label начинается с searchStr
+//			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
+//		}
+//		
+//		//тут проверяем совпадение с фильтрами
+//		function isFilterMatch(item) {
+//			return true;
+//		}
+//	}
+	
+	filterForSearch(arr) {
+		const {searchStr} = this.state;
 		
+		if(searchStr.length === 0) return arr;
+		
+		const newArr = arr.filter( item => {
+			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
+		});
 		
 		return newArr;
+	}
+	
+	filterForFilters(arr) {
+		const {activeFilters} = this.state;
 		
-		//тут ищем совпадение строки поиска с todo именем
-		function isSearchMatch(item) {
-			//проверять что item.label начинается с searchStr
-			return ~item.label.toLowerCase().indexOf(searchStr.toLowerCase())
-		}
+		if(activeFilters === 'all') return arr; 
 		
-		//тут проверяем совпадение с фильтрами
-		function isFilterMatch(item) {
-			return true;
-		}
+		const newArr = arr.filter( item => {
+			return true
+		});
+		
+		return newArr;
 	}
 	
 	
@@ -163,8 +175,10 @@ class App extends React.Component {
 		const welcomeBox = <span>Welcome Back!</span>;
 		
 		const {todoData} = this.state;
-		const filteredTodoData = this.filterTodos();
+		const filteredByFilters = this.filterForFilters(todoData);
+		const filteredBySearch = this.filterForSearch(filteredByFilters);
 		
+		//оптимизация - считать doneCount в filterTodos. Т.к. там уже делается проход по массиву todoData
 		const doneCount = todoData.filter((el) => el.done).length;
 		const leftCount = todoData.length - doneCount;
 		
@@ -179,7 +193,7 @@ class App extends React.Component {
 					<ItemStatusFilter />
 				</div>
 				<TodoList 
-					todos={filteredTodoData}
+					todos={filteredBySearch}
 					//передаём списку ф-цию обратного вызова
 					onDeletedInApp={ this.deleteFromData.bind(this) } 
 					onTodoDone={ this.onTodoDone.bind(this) }
