@@ -27,7 +27,6 @@ class App extends React.Component {
 			
 			activeFilters: 'all',
 			searchStr: '',
-			filteredTodoData: null,
 		}
 	}
 	
@@ -99,8 +98,6 @@ class App extends React.Component {
 	}
 	
 	setProperty(prop, value) {
-		console.log(this.state[prop]);
-		
 		this.setState({
 			[prop]: value
 		})
@@ -108,6 +105,10 @@ class App extends React.Component {
 	
 	onSearch(text) {
 		this.setProperty('searchStr', text)
+	}
+	
+	onFilter(text) {
+		this.setProperty('activeFilters', text)
 	}
 	
 	
@@ -129,7 +130,10 @@ class App extends React.Component {
 		if(activeFilters === 'all') return arr; 
 		
 		const newArr = arr.filter( item => {
-			return true
+			if(activeFilters === 'active') return !item.done;
+			if(activeFilters === 'done') return item.done;
+			
+			return true;
 		});
 		
 		return newArr;
@@ -156,7 +160,7 @@ class App extends React.Component {
 				<AppHeader toDo={leftCount} done={doneCount} />
 				<div className="top-panel d-flex">
 					<SearchPanel onSearch={ this.onSearch.bind(this) } />
-					<ItemStatusFilter />
+					<ItemStatusFilter onFilter={ this.onFilter.bind(this) }/>
 				</div>
 				<TodoList 
 					todos={filteredBySearch}
